@@ -1,0 +1,83 @@
+﻿@{
+    ViewData["Title"] = "Edit makeup";
+}
+
+<v-row class="d-flex justify-center">
+    <v-col cols="12" md="8" lg="6" xl="4">
+        <v-card width="100%" class="px-2">
+            <v-text-field label="Makeup name"
+                          filled class="mt-5"
+                          rounded
+                          v-model="makeupName"
+                          dense></v-text-field>
+            <v-text-field label="Makeup description"
+                          filled class="mt-5"
+                          rounded
+                          v-model="makeupDescription"
+                          dense></v-text-field>
+
+            <v-card-text>
+                <v-file-input label="Picture"
+                              filled class="mt-4"
+                              rounded
+                              dense v-model="makeupPicture"></v-file-input>
+                <v-timeline align-top>
+                    <v-timeline-item small v-for="step in makeupSteps">
+                        @* v-for="step in makeup.steps" *@
+                                     @* :key="step" *@
+                        <div>
+                            <input type="color" id="html5colorpicker" v-model="step.color" style="width:100%;">
+                            <div class="font-weight-normal">
+                                <v-text-field label="Step Name"
+                                              filled class="mt-4"
+                                              rounded
+                                              dense
+                                              v-model="step.name"></v-text-field>
+                            </div>
+                            <v-text-field label="Description"
+                                          filled class="mt-4"
+                                          rounded
+                                          dense
+                                          v-model="step.description"></v-text-field>
+                        </div>
+                    </v-timeline-item>
+                </v-timeline>
+                <v-btn color="blue" text block @@click="makeupSteps.push({name: '', description: '', color: ''})">
+                    New Step
+                </v-btn>
+            </v-card-text>
+        </v-card>
+    </v-col>
+</v-row>
+<v-row>
+    <v-col>
+        <v-btn color="blue" text block @@click="save">
+            Save
+        </v-btn>
+    </v-col>
+</v-row>
+<v-dialog v-model="errDialog" max-width="600">
+    <v-card>
+        <v-card-title class="text-h5 error lighten-5">
+            Грешка!
+        </v-card-title>
+        <v-card-text class="mt-2">
+            {{errText}}
+        </v-card-text>
+
+        <v-divider style="margin-top: -1rem;"></v-divider>
+
+        <v-card-actions>
+            <v-col class="pa-0" cols="12">
+                <v-btn color="error" text block @@click="errDialog = false;">
+                    Разбирам
+                </v-btn>
+            </v-col>
+        </v-card-actions>
+    </v-card>
+</v-dialog>
+<input value="@ViewBag.Id" id="makeupId" style="display: none;" />
+
+@section Scripts {
+    <script src="~/js/editMakeup.js"></script>
+}
